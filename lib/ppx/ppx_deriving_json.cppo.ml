@@ -596,6 +596,12 @@ let json_decls_of_record d l =
 let json_str_of_decl ({Parsetree.ptype_loc} as d) =
   Ast_helper.with_default_loc ptype_loc @@ fun () ->
   match d with
+  | { Parsetree.ptype_manifest = Some _ ;
+      ptype_kind = Ptype_variant l } ->
+    json_decls_of_variant d l
+  | { Parsetree.ptype_manifest = Some _ ;
+      ptype_kind = Ptype_record l  } ->
+    json_decls_of_record d l
   | { Parsetree.ptype_manifest = Some y } ->
     json_decls_of_type d y
   | { ptype_kind = Ptype_variant l } ->
